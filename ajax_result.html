@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script>
+			$(function(){
+				$.get('https://www.googleapis.com/drive/v2/files?q=%271QCeqqaIAO8xoUHeg9fcCkCq1s4EwAIcg%27+in+parents&key=AIzaSyBZKKLMyZ5e7uLc9o1P7k2xXDUv7Nrqllw')
+					.done(function(result){
+						var str = '';
+						var mediaType = ['image/jpeg','image/png','image/jpg','image/jpg','video/mp4'];
+						var docType = ['application/vnd.google-apps.document','application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+						var sheetType = ['application/vnd.google-apps.spreadsheet','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+						var presentationType = ['application/vnd.google-apps.presentation'];
+						for(var i = 0;i < result.items.length; i ++)
+						{
+							var data = result.items[i];
+							  if(docType.includes(data.mimeType))
+							  {
+								link = 'https://docs.google.com/document/d/'+data.id;
+							  }
+							  else if(sheetType.includes(data.mimeType))
+							  {
+								link = 'https://docs.google.com/spreadsheets/d/'+data.id;
+							  }
+							  else if(presentationType.includes(data.mimeType))
+							  {
+								link = 'https://docs.google.com/presentation/d/'+data.id;
+							  }
+							  else
+							  {
+								link = 'https://docs.google.com/uc?id='+data.id;
+							  }
+							
+							
+							str += '<tr>'+
+										'<td>'+data.originalFilename+'</td>'+
+										'<td>'+data.mimeType+'</td>'+
+										'<td><a href="'+link+'" target="_blank">Show</a></td>'+
+									'</tr>';
+							$('#file_body').html(str);
+
+						}
+					});
+				});
+				
+				function showUrlContent()
+				{
+					$('.show_url_content').click(function(){
+						
+					});
+				}
+		</script>
+	</head>
+	<body>
+		<table border="1" >
+			<thead>
+				<tr>
+					<th>Filename</th>
+					<th>Type</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody id="file_body">
+			</tbody>
+		</table>
+		<iframe class="content-section">
+	</body>
+</html>
